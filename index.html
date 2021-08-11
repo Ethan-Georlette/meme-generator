@@ -15,6 +15,7 @@
     <div class="meme-generator" hidden>
         <canvas id="canvas" width="500" height="500" ></canvas>
         <button class="btn addLine" onclick="onAddLine()">+</button>
+        <input type="text" id="line" placeholder="line" oninput="onTxt(this.value)">
     </div>
     <script src="js/service/utils-service.js"></script>
     <script src="js/service/storage-service.js"></script>
