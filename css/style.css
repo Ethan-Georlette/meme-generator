@@ -69,6 +69,9 @@ header{
     padding: 0;
     box-shadow: inset 0 -6px 0 #1e1e1e;
 }
+.main-nav{
+    height: 100%;
+}
 .logo{
     height: 22px;
 }
@@ -303,9 +306,6 @@ footer{
     } */
     .tools{
         width: 50%;
-    }
-    .btn-menu-toggle {
-        display: none;
     }
     .main-layout{
         max-width: 1000px;
