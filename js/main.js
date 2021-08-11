@@ -70,6 +70,10 @@ function renderPage() {
     console.log(htmlStr);
     document.querySelector('.main-content').innerHTML = htmlStr;
 }
+function setHomePage() {
+    document.querySelector('.meme-generator').style.display = 'none';
+    document.querySelector('main').hidden = false;
+}
 function onImgClick(url) {
     document.querySelector('.meme-generator').style.display = 'flex';
     document.querySelector('main').hidden = true;

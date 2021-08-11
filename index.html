@@ -13,11 +13,11 @@
     <div class="screen" onclick="toggleMenu()"></div>
     <header>
         <div class="main-layout flex space-between center">
-            <div class="logo"><img src="img/design/logo.png" /></div>
+            <div class="logo" onclick="setHomePage()"><img src="img/design/logo.png" /></div>
             <a class="btn-menu-toggle" onclick="toggleMenu()">☰</a>
             <ul class="navLinks clean-list flex center">
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#gallery" onclick="setHomePage()">Gallery</a></li>
+                <li><a href="#about" onclick="setHomePage()">About</a></li>
             </ul>
         </div>
     </header>
