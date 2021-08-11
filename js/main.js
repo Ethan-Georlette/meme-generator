@@ -9,7 +9,6 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
-    onImgClick('img/sqrImg/18.jpg');
 }
 
 function addListeners() {
@@ -24,7 +23,6 @@ function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth;
     gElCanvas.height = elContainer.offsetHeight;
-    console.log(gElCanvas.width);
     setCanvasSize(gElCanvas.width);
 }
 
