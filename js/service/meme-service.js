@@ -7,10 +7,10 @@ var gMeme = {
  lines: [
  {
  txt: 'I never eat Falafel',
- size: 20,
- align: 'left',
- color: 'red',
- pos:{x:250,y:250}
+ size: 48,
+ align: 'center',
+ color: 'black',
+ pos:{x:250,y:0}
  }
  ]
 }
@@ -37,6 +37,14 @@ function updateTxt(txt){
 function getMeme(){
     return gMeme;
 }
-// function _saveCarsToStorage() {
-//     saveToStorage(KEY, gCars)
-// }
+function addLine(){
+    gMeme.selectedLineIdx++;
+    var pos=getLinePos(gMeme.selectedLineIdx);//util function that position the line in the right place on the canvas
+    var line={ txt: '',
+    size: 48,
+    align: 'center',
+    color: 'black',
+    pos
+    }
+    gMeme.lines.push(line);
+ }
