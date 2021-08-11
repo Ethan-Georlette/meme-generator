@@ -7,7 +7,15 @@
     <title>Meme Generator</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body onload="init()">
+    <header>
+    </header>
+    <div class="main-content">
+    </div>
+    <div class="meme-generator" hidden>
+        <canvas id="canvas" width="500" height="500" ></canvas>
+        <button class="btn addLine" onclick="onAddLine()">+</button>
+    </div>
     <script src="js/service/utils-service.js"></script>
     <script src="js/service/storage-service.js"></script>
     <script src="js/service/meme-service.js"></script>

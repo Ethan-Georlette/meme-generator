@@ -1,0 +1,34 @@
+/* BASIC */
+*{
+    box-sizing: border-box;
+}
+html {
+    font-family: 'Lato', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+a{
+    text-decoration: none;
+}
+
+img {
+    height: 100px;
+}
+h2 {
+    font-size: 2rem;
+}
+/* MAIN LAYOUT */
+
+canvas{
+    border: 1px black solid;
+}
+img:hover{
+    cursor: pointer;
+}
+.meme-generator{
+    position: absolute;
+    top: 0;
+    
+}
