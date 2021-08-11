@@ -59,8 +59,10 @@
             </div>
         </section>
     </main>
-    <div class="meme-generator flex main-layout" style="display: none;">
+    <div class="meme-generator flex main-layout space-between" style="display: none;">
+        <div class="canvas-container flex center justify-center">
         <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
         <div class="tools">
             <input type="text" class="txtLine" placeholder="line" oninput="onTxt(this.value)">
             <button class="btn txtPosDown" onclick="onTxtPos('+')"></button>

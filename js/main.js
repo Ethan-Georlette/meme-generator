@@ -9,16 +9,23 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
-    // onImgClick('img/sqrImg/18.jpg');
+    onImgClick('img/sqrImg/18.jpg');
 }
 
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    // window.addEventListener('resize', () => {
-    //     resizeCanvas()
-    //     renderCanvas()
-    // })
+    window.addEventListener('resize', () => {
+        resizeCanvas()
+        renderCanvas()
+    })
+}
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.width = elContainer.offsetWidth;
+    gElCanvas.height = elContainer.offsetHeight;
+    console.log(gElCanvas.width);
+    setCanvasSize(gElCanvas.width);
 }
 
 function addMouseListeners() {
@@ -69,6 +76,7 @@ function onImgClick(url) {
     document.querySelector('.meme-generator').style.display = 'flex';
     document.querySelector('main').hidden = true;
     updateMeme(url);
+    resizeCanvas();
     renderCanvas();
 
 }
@@ -107,7 +115,7 @@ function drawRect(line) {
     var y = line.pos.y
     var alignVertical = -line.size - 5
     gCtx.beginPath()
-    gCtx.rect(10, y, 470, alignVertical)
+    gCtx.rect(10, y, gElCanvas.width-20, alignVertical)
     gCtx.strokeStyle = 'black'
     gCtx.stroke()
 

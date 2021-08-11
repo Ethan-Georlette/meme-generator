@@ -14,6 +14,9 @@ var gMeme = {
         }
     ]
 }
+var gCanvas = {
+    width: 500,
+}
 
 function createImgs() {
     var imgs = [];
@@ -36,6 +39,11 @@ function updateTxt(txt) {
 }
 function getMeme() {
     return gMeme;
+}
+function renderLines(){
+    gMeme.lines.forEach((line,idx)=>{
+        line.pos=getLinePos(idx);
+    })
 }
 function addLine() {
     gMeme.selectedLineIdx = gMeme.lines.length;
@@ -96,10 +104,29 @@ function alignText(val) {
             currLine.pos.x = 20;
             break;
         case 'center':
-            currLine.pos.x = 250;
+            currLine.pos.x =  gCanvas.width/2;
             break;
         case 'right':
-            currLine.pos.x = 470;
+            currLine.pos.x =  gCanvas.width-20;
             break;
     }
+}
+function setCanvasSize(width) {
+    gCanvas.width=width;
+    renderLines();
+}
+function getLinePos(numOfLine) {
+    var pos;
+    switch (numOfLine) {
+        case 0:
+            pos = { x: gCanvas.width/2, y: 60 };
+            break;
+        case 1:
+            pos = { x:  gCanvas.width/2, y: 500 };
+            break;
+        case 2:
+            pos = { x:  gCanvas.width/2, y: 250 };
+            break;
+    }
+    return pos;
 }
