@@ -3,32 +3,194 @@
     box-sizing: border-box;
 }
 html {
-    font-family: 'Lato', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
     margin: 0;
+    background-color: rgb(227,227,227);
 }
 a{
     text-decoration: none;
 }
+h1{
+    margin: 0px;
+}
+/* FONTS */
+@font-face {
+    font-family: Brands;
+    src: url(../fonts/awesome/Font\ Awesome\ 5\ Brands-Regular-400.otf);
+}
+.fab::before {
+    font-family: Brands;
+    font-style: normal;
+    font-size: 3rem;
+}
 
-img {
-    height: 100px;
+/* ICONS */
+
+.fab.fa-facebook::before {
+    content: "\f082";
+    color: #4C6EF5;
 }
-h2 {
-    font-size: 2rem;
+
+.fab.fa-linkedin::before {
+    content: "\f08c";
+    color: #0A63BC;
 }
+
+.fab.fa-github::before {
+    content: "\f092";
+    color: #BE4BDB;
+}
+
+
 /* MAIN LAYOUT */
-
-canvas{
-    border: 1px black solid;
+.main-layout{
+    max-width: 1000px;
+    padding: 25px;
+    margin: 0 auto;
+}
+.page{
+    width: 100%;
+    justify-content: center;
+}
+/* HEADER */
+header{
+    background-color: #ff7f00;
+    justify-content: center;
+}
+.logo{
+    height: 22px;
+}
+.navLinks{
+    width: 20%;
+}
+.navLinks li{
+    flex-grow: 1;
+}
+.navLinks li:last-child{
+border-left: solid 1px black;
+padding-left: 10px;
+}
+/* MAIN CONTENT */
+.main-content{
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax(180px, 1fr) );
+  align-content: center;
+  justify-content: center;
+}
+.img-container{
+    margin: 10px;
+}
+.main-content img{
+    max-width:100% ;
+}
+/* ABOUT */
+.about-me{
+    background-color: #fff;
+    max-height: 570px;
+}
+.info{
+    padding: 10px;
+}
+.rounded-circle{
+    height: 80%;
+    border-radius:50%;
+    object-fit: contain;
+}
+.about-text h1{
+    font-size: 4rem;
+}
+.about-text{
+    height: 80%;
+    margin-left:20px ;
+    padding: 0;
+    font-size: 1.5rem;
+}
+.social-links{
+    gap: 10px;
 }
 img:hover{
     cursor: pointer;
 }
-.meme-generator{
-    position: absolute;
-    top: 0;
-    
+footer{
+    background-color: #ff7f00;
+    justify-content: center;
+    height: 100px;
+    gap:10px;
+}
+/* MEME */
+.tools{
+    padding: 10px;
+    display: grid;
+    align-content: space-between;
+    grid-template-rows: repeat(7,1fr);
+    grid-template-columns: repeat(5,1fr);
+    gap: 20px;
+}
+.btn{
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background-color: #fff;
+    border: none;
+    background-repeat: no-repeat;
+    background-size: 70% ;
+    background-position: center;
+}
+.txtLine{
+    grid-column: 1/6;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: none;
+    text-align: center;
+    font-size: 40px;
+    font-weight: bolder;
+}
+.switchLine{
+    grid-column: 2;
+    grid-row: 2;
+    background-image: url('img/ICONS/up-and-down-opposite-double-arrows-side-by-side.png');
+}
+.addLine{
+    grid-column: 3;
+    background-image: url('img/ICONS/add.png');
+}
+.delete{
+    grid-column: 4;
+    grid-row: 2;
+    background-image: url('img/ICONS/trash.png');
+}
+.fontSizePlus{
+    background-image: url("img/ICONS/increase\ font\ -\ icon.png");
+    grid-column: 1;
+    grid-row: 3;
+}
+.fontSizeMinus{
+    background-image: url("img/ICONS/increase\ font\ -\ icon.png");
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* HELPERS */
+.flex{
+    display: flex;
+}
+.column{
+    flex-direction: column;
+}
+.space-between{
+    justify-content: space-between;
+}
+.justify-center{
+    justify-content:center;
+}
+.center{
+    align-items: center;
+}
+.clean-list{
+    list-style-type: none;
+    margin: 0;
+    padding-inline-start: 0px;   
 }

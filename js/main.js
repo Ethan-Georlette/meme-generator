@@ -15,10 +15,10 @@ function init() {
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
-    window.addEventListener('resize', () => {
-        resizeCanvas()
-        renderCanvas()
-    })
+    // window.addEventListener('resize', () => {
+    //     resizeCanvas()
+    //     renderCanvas()
+    // })
 }
 
 function addMouseListeners() {
@@ -57,14 +57,17 @@ function renderPage() {
     const imgs = getImgs()
     var htmlStr = '';
     imgs.forEach(img => {
-        htmlStr += `<img src="${img.url}" id=${img.id}   onclick="onImgClick('${img.url}')">\n`
+        htmlStr += `
+        <div class="img-container">\n
+            <img src="${img.url}" id=${img.id}   onclick="onImgClick('${img.url}')">\n
+        </div>\n`
     })
     console.log(htmlStr);
     document.querySelector('.main-content').innerHTML = htmlStr;
 }
 function onImgClick(url) {
     document.querySelector('.meme-generator').hidden = false;
-    document.querySelector('.main-content').hidden = true;
+    document.querySelector('main').hidden = true;
     updateMeme(url);
     renderCanvas();
 
@@ -77,6 +80,7 @@ function renderCanvas() {
     img.onload = () => {
         drawImg(img)
         var lines = meme.lines;
+        if(!lines.length)return;
         lines.forEach((line, idx) => {
             drawTxt(line)
             if (idx === meme.selectedLineIdx) {
@@ -92,16 +96,15 @@ function onTxt(txt) {
 function drawTxt(line) {
     gCtx.font = `${line.size}px Impact`;
     gCtx.textAlign = 'center';
-    var textVertical = (!line.pos.y) ? line.size : -8
+    var textVertical =  -8
     gCtx.fillText(line.txt, line.pos.x, line.pos.y + textVertical);
-    console.log(line.txt, line.pos.x, line.pos.y + textVertical);
 }
 function drawImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 function drawRect(line) {
     var y = line.pos.y
-    var alignVertical = (!line.pos.y) ? line.size+6 : -line.size-5
+    var alignVertical = -line.size-5
     gCtx.beginPath()
     gCtx.rect(10, y, 470, alignVertical)
     gCtx.strokeStyle = 'black'
@@ -114,5 +117,17 @@ function onAddLine() {
 }
 function onFontSize(val){
     changeFontSize(val)
+    renderCanvas();
+}
+function onTxtPos(val){
+    changeTxtPos(val)
+    renderCanvas();
+}
+function onSwitchLine(){
+    changeCurrLine()
+    renderCanvas();
+}
+function onDelLine(){
+    deleteCurrLine();
     renderCanvas();
 }

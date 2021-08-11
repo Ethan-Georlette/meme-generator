@@ -10,7 +10,7 @@ var gMeme = {
             size: 48,
             align: 'center',
             color: 'black',
-            pos: { x: 250, y: 0 }
+            pos: { x: 250, y: 60 }
         }
     ]
 }
@@ -38,7 +38,7 @@ function getMeme() {
     return gMeme;
 }
 function addLine() {
-    gMeme.selectedLineIdx=gMeme.lines.length;
+    gMeme.selectedLineIdx = gMeme.lines.length;
     var pos = getLinePos(gMeme.selectedLineIdx);//util function that position the line in the right place on the canvas
     var line = {
         txt: '',
@@ -56,15 +56,35 @@ function changeFontSize(val) {
         gMeme.lines[gMeme.selectedLineIdx].size--;
     }
 }
-function setSelectedLine(pos){
-    var selectedLineIdx=gMeme.lines.findIndex(line=>{
-        var alignVertical = (!line.pos.y) ? line.size+8 : -line.size-8
-        return ((10<pos.x&&pos.x<480)&&(pos.y>line.pos.y&&pos.y<line.pos.y+alignVertical))
-    })
-    console.log(selectedLineIdx);
-    if (selectedLineIdx===-1)return;
-    gMeme.selectedLineIdx=selectedLineIdx;
+function changeTxtPos(val) {
+    if (val === '+') {
+        gMeme.lines[gMeme.selectedLineIdx].pos.y -= 10;
+    } else {
+        gMeme.lines[gMeme.selectedLineIdx].pos.y += 10;
+    }
 }
-function getCurrLine(){
+function changeCurrLine() {
+    if (gMeme.selectedLineIdx === 0) {
+        gMeme.selectedLineIdx = gMeme.lines.length - 1;
+          return;
+    }
+        gMeme.selectedLineIdx--;
+}
+function deleteCurrLine(){
+    gMeme.lines.splice(gMeme.selectedLineIdx,1)
+    gMeme.selectedLineIdx--;
+    if(!gMeme.lines.length){
+        addLine();
+    }
+}
+function setSelectedLine(pos) {
+    var selectedLineIdx = gMeme.lines.findIndex(line => {
+        var alignVertical = -line.size - 8
+        return ((10 < pos.x && pos.x < 480) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
+    })
+    if (selectedLineIdx === -1) return;
+    gMeme.selectedLineIdx = selectedLineIdx;
+}
+function getCurrLine() {
     return gMeme.lines[gMeme.selectedLineIdx];
 }

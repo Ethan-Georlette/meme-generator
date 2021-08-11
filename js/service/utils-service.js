@@ -35,7 +35,7 @@ function getRandomColor() {
       var pos;
       switch(numOfLine){
           case 0:
-            pos={x:250,y:0};
+            pos={x:250,y:60};
             break;
           case 1:
             pos={x:250,y:500};
