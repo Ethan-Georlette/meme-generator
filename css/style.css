@@ -148,17 +148,28 @@ footer{
     font-size: 40px;
     font-weight: bolder;
 }
-.switchLine{
+.txtPosDown{
+    grid-column: 1;
+    grid-row: 2;
+    background-image: url('img/ICONS/aroow.png');
+}
+.txtPosUp{
     grid-column: 2;
+    grid-row: 2;
+    transform: rotateX(180deg);
+    background-image: url('img/ICONS/aroow.png');
+}
+.switchLine{
+    grid-column: 3;
     grid-row: 2;
     background-image: url('img/ICONS/up-and-down-opposite-double-arrows-side-by-side.png');
 }
 .addLine{
-    grid-column: 3;
+    grid-column: 4;
     background-image: url('img/ICONS/add.png');
 }
 .delete{
-    grid-column: 4;
+    grid-column: 5;
     grid-row: 2;
     background-image: url('img/ICONS/trash.png');
 }
@@ -171,6 +182,24 @@ footer{
     background-image: url("img/ICONS/increase\ font\ -\ icon.png");
     grid-column: 2;
     grid-row: 3;
+}
+.txtAlignLeft{
+    grid-column: 3;
+    grid-row: 3;
+    background-image: url("img/ICONS/align-to-left.png");
+}
+.txtAlignCenter{
+    grid-column: 4;
+    grid-row: 3;
+    background-image: url("img/ICONS/center-text-alignment.png");
+}
+.txtAlignRight{
+    grid-column: 5;
+    grid-row: 3;
+    background-image: url("img/ICONS/align-to-right.png");
+}
+.selected{
+    box-shadow: 0 0 5px 5px #ff9800;
 }
 
 /* HELPERS */

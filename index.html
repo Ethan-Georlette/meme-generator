@@ -56,17 +56,21 @@
         </div>
     </section>
     </main>
-    <div class="meme-generator flex" hidden>
+    <div class="meme-generator flex main-layout" hidden>
         <canvas id="canvas" width="500" height="500"></canvas>
         <div class="tools">
         <input type="text" class="txtLine" placeholder="line" oninput="onTxt(this.value)">
+        <button class="btn txtPosDown" onclick="onTxtPos('+')"></button>
+        <button class="btn txtPosUp" onclick="onTxtPos('-')"></button>
+        <button class="btn switchLine" onclick="onSwitchLine()"></button>
         <button class="btn addLine" onclick="onAddLine()"></button>
         <button class="btn delete" onclick="onDelLine()"></button>
         <button class="btn fontSizeMinus" onclick="onFontSize('-')"></button>
         <button class="btn fontSizePlus" onclick="onFontSize('+')"></button>
-        <button class="btn textPos" onclick="onTxtPos('+')"></button>
-        <button class="btn textPos" onclick="onTxtPos('-')"></button>
-        <button class="btn switchLine" onclick="onSwitchLine()"></button>
+        <button class="btn fontSizePlus"  onclick="onFontSize('+')"></button>
+        <button class="btn txtAlignLeft" onclick="onAlign('left',this)"></button>
+        <button class="btn txtAlignCenter" onclick="onAlign('center',this)"></button>
+        <button class="btn txtAlignRight" onclick="onAlign('right',this)"></button>
     </div>
     </div>
     <footer class="flex column center">

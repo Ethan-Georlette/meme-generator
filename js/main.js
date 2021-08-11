@@ -73,18 +73,19 @@ function onImgClick(url) {
 
 }
 function renderCanvas() {
-    document.querySelector('.txtLine').value=getCurrLine().txt;
+    document.querySelector('.txtLine').value = getCurrLine().txt;
     var meme = getMeme();
     var img = new Image();
     img.src = meme.selectedImgUrl;
     img.onload = () => {
         drawImg(img)
         var lines = meme.lines;
-        if(!lines.length)return;
+        if (!lines.length) return;
         lines.forEach((line, idx) => {
             drawTxt(line)
             if (idx === meme.selectedLineIdx) {
-                drawRect(line)
+                drawRect(line);
+                setSelected(line)
             }
         })
     }
@@ -95,8 +96,8 @@ function onTxt(txt) {
 }
 function drawTxt(line) {
     gCtx.font = `${line.size}px Impact`;
-    gCtx.textAlign = 'center';
-    var textVertical =  -8
+    gCtx.textAlign = line.align;
+    var textVertical = -8
     gCtx.fillText(line.txt, line.pos.x, line.pos.y + textVertical);
 }
 function drawImg(img) {
@@ -104,7 +105,7 @@ function drawImg(img) {
 }
 function drawRect(line) {
     var y = line.pos.y
-    var alignVertical = -line.size-5
+    var alignVertical = -line.size - 5
     gCtx.beginPath()
     gCtx.rect(10, y, 470, alignVertical)
     gCtx.strokeStyle = 'black'
@@ -115,19 +116,40 @@ function onAddLine() {
     addLine();
     renderCanvas();
 }
-function onFontSize(val){
+function onFontSize(val) {
     changeFontSize(val)
     renderCanvas();
 }
-function onTxtPos(val){
+function onTxtPos(val) {
     changeTxtPos(val)
     renderCanvas();
 }
-function onSwitchLine(){
+function onSwitchLine() {
     changeCurrLine()
     renderCanvas();
 }
-function onDelLine(){
+function onDelLine() {
     deleteCurrLine();
     renderCanvas();
+}
+function onAlign(val, elBtn) {
+    alignText(val);
+    renderCanvas();
+}
+function setSelected(line) {
+    var elSelects = document.querySelectorAll('.selected');
+    for (var i = 0; i < elSelects.length; i++) {
+        elSelects[i].classList.remove('selected');
+    }
+    switch (line.align) {
+        case 'left':
+            document.querySelector('.txtAlignLeft').classList.add('selected')
+            break;
+        case 'center':
+            document.querySelector('.txtAlignCenter').classList.add('selected');
+            break;
+        case 'right':
+            document.querySelector('.txtAlignRight').classList.add('selected')
+            break;
+    }
 }

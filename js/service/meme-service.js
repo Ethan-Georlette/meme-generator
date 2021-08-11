@@ -66,14 +66,14 @@ function changeTxtPos(val) {
 function changeCurrLine() {
     if (gMeme.selectedLineIdx === 0) {
         gMeme.selectedLineIdx = gMeme.lines.length - 1;
-          return;
+        return;
     }
-        gMeme.selectedLineIdx--;
-}
-function deleteCurrLine(){
-    gMeme.lines.splice(gMeme.selectedLineIdx,1)
     gMeme.selectedLineIdx--;
-    if(!gMeme.lines.length){
+}
+function deleteCurrLine() {
+    gMeme.lines.splice(gMeme.selectedLineIdx, 1)
+    gMeme.selectedLineIdx--;
+    if (!gMeme.lines.length) {
         addLine();
     }
 }
@@ -87,4 +87,19 @@ function setSelectedLine(pos) {
 }
 function getCurrLine() {
     return gMeme.lines[gMeme.selectedLineIdx];
+}
+function alignText(val) {
+    var currLine = gMeme.lines[gMeme.selectedLineIdx];
+    currLine.align = val.toLowerCase();
+    switch (val) {
+        case 'left':
+            currLine.pos.x = 20;
+            break;
+        case 'center':
+            currLine.pos.x = 250;
+            break;
+        case 'right':
+            currLine.pos.x = 470;
+            break;
+    }
 }
