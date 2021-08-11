@@ -9,7 +9,7 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
-    onImgClick('img/sqrImg/18.jpg');
+    // onImgClick('img/sqrImg/18.jpg');
 }
 
 function addListeners() {
@@ -66,7 +66,7 @@ function renderPage() {
     document.querySelector('.main-content').innerHTML = htmlStr;
 }
 function onImgClick(url) {
-    document.querySelector('.meme-generator').hidden = false;
+    document.querySelector('.meme-generator').style.display = 'flex';
     document.querySelector('main').hidden = true;
     updateMeme(url);
     renderCanvas();
@@ -132,7 +132,7 @@ function onDelLine() {
     deleteCurrLine();
     renderCanvas();
 }
-function onAlign(val, elBtn) {
+function onAlign(val) {
     alignText(val);
     renderCanvas();
 }
@@ -152,4 +152,7 @@ function setSelected(line) {
             document.querySelector('.txtAlignRight').classList.add('selected')
             break;
     }
+}
+function toggleMenu() {
+    document.body.classList.toggle('menu-open');
 }
