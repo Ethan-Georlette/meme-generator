@@ -222,8 +222,7 @@ footer{
 .txtPosUp{
     grid-column: 2;
     grid-row: 2;
-    transform: rotateX(180deg);
-    background-image: url('img/ICONS/aroow.png');
+    background-image: url('img/ICONS/downArrow.png');
 }
 .switchLine{
     grid-column: 3;
@@ -302,6 +301,12 @@ input[type="color" i]{
     box-shadow: -1px 1px 10px 2px black;
     border: none;
     transition: box-shadow 1s;
+}
+.to-home{
+    background-image: url("img/ICONS/home.png");
+    background-repeat: no-repeat;
+    background-size: 70% ;
+    background-position: center;
 }
 .download-link{
     grid-column: 2/4;

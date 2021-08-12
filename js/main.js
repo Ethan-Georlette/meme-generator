@@ -121,7 +121,7 @@ function onMyImgClick(idx) {
     setSelectedLine(0);
     renderCanvas();
 }
-function renderCanvas() {
+function renderCanvas(isDownload = false) {
     document.querySelector('.txtLine').value = getCurrLine().txt;
     var meme = getMeme();
     var img = new Image();
@@ -132,9 +132,14 @@ function renderCanvas() {
         if (!lines.length) return;
         lines.forEach((line, idx) => {
             drawTxt(line)
-            if (idx === meme.selectedLineIdx) {
+            if (idx === meme.selectedLineIdx && !isDownload) {
                 drawRect(line);
-                setSelected(line)
+                setSelected(line);
+            }
+            if (isDownload) {
+                if(isDownload==='download')downloadImg();
+                if(isDownload==='save')saveImg();
+                if(isDownload==='share')uploadImg();
             }
         })
     }
@@ -205,14 +210,16 @@ function onStrokeColor(val) {
     renderCanvas();
 }
 function onDownloadImg() {
-    setSelectedLine(-1);
-    renderCanvas();
-    downloadImg();
+    renderCanvas('download');
 }
 function downloadImg() {
     var elLink = document.querySelector('.download-link');
-    var imgContent = gElCanvas.toDataURL('image/jpeg')
-    elLink.href = imgContent;
+    const data = gElCanvas.toDataURL("image/jpeg");
+    elLink.href = data;
+    renderCanvas();
+}
+function onShareImg(){
+    renderCanvas('share')
 }
 function uploadImg() {
     const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
@@ -222,15 +229,14 @@ function uploadImg() {
         const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
         document.querySelector('.share-btns').innerHTML = `
         <a class="c-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
-           <i class="fab fa-facebook">Share</i>  
+           <i class="fab fa-facebook" onclick="closeModal()">Share</i>  
         </a>`
+        renderCanvas();
     }
     doUploadImg(imgDataUrl, onSuccess);
 }
 function onSaveImg() {
-    setSelectedLine(-1);
-    renderCanvas();
-    saveImg();
+    renderCanvas('save');
 }
 function saveImg() {
     var imgData = gElCanvas.toDataURL("image/jpeg");
@@ -306,5 +312,4 @@ function toggleMenu() {
 }
 function removeClass() {
     document.body.removeAttribute('class');
-
 }
