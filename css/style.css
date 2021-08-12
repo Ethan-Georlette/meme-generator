@@ -13,10 +13,18 @@ body {
 a{
     text-decoration: none;
 }
+i{
+    text-decoration: none;
+    font-style: normal;
+}
 h1{
     margin: 0px;
 }
 /* FONTS */
+@font-face {
+    font-family: 'Montserrat';
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
 @font-face {
     font-family: Roboto;
     src: url(../fonts/Roboto-Regular.ttf);
@@ -93,7 +101,7 @@ header{
 .btn-menu-toggle{
     color: white;
     border: none;
-    font-size: 30px;
+    font-size: 1.875rem;
 }
 .navLinks{
     height: 100px;
@@ -203,7 +211,7 @@ footer{
     background-color: #ffffff;
     border: none;
     text-align: center;
-    font-size:30px;
+    font-size:1.875rem;
     font-weight: bolder;
 }
 .txtPosDown{
@@ -256,14 +264,141 @@ footer{
     grid-row: 3;
     background-image: url("img/ICONS/align-to-right.png");
 }
+.fonts{
+    grid-column: 1/4;
+    grid-row: 4;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: none;
+    text-align: center;
+    font-size:1.875rem;
+}
+input[type="color" i]{
+    width:100%;
+    height: 100%;
+    opacity: 0;
+}
+.stroke-container{
+    background-image: url("img/ICONS/textstroke.png");
+}
+.fill-container{
+    background-image: url("img/ICONS/paint-board-and-brush.png");
+}
+.b-btn:hover{
+    cursor: pointer;
+    box-shadow: none;
+}
+.b-btn{
+    background-color:#ff9800 ;
+    color: #fff;
+    display: flex;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: -1px 1px 10px 2px black;
+    border: none;
+    transition: box-shadow 1s;
+}
+.download-link{
+    grid-column: 2/4;
+}
 .selected{
     box-shadow: 0 0 5px 5px #ff9800;
+}
+.share-modal{
+    display: none;
+    position: absolute;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: rgb(227,227,227);
+    width:300px;
+    height: 200px;
+    box-shadow:1px 1px 13px 8px black;
+    top:0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: auto;
+}
+body.modal .share-modal{
+    display: flex;
+}
+body.modal .screen{
+    pointer-events: auto;
+    opacity: 1;
+}
+.share-btns{
+    width: 70%;
+}
+.c-btn{
+    width:85px;
+    align-items: center;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0px 0px 5px 1px black;
+}
+.c-btn .fab::before{
+    font-size: 2rem;
+}
+/* MY GALLERY */
+.my-gallery{
+    text-align: center;
+}
+.my-gallery span:hover{
+    text-shadow: 1px 1px 1px #0A63BC;
+    cursor: pointer;
+}
+.my-gallery span{
+    color:#ff9800;
+}
+.myBtn:hover{
+    cursor: pointer;
+    box-shadow: none;
+}
+.myBtn{
+    width: 100%;
+    transition: box-shadow 1s;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0px 0px 5px 1px black;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.delImg{
+    background-image: url('img/ICONS/trash.png');
+}
+.edit{
+    background-image: url('img/ICONS/edit.png');
 }
 /* SMALL */
 @media (max-width: 620px) {
     .main-layout{
         margin-left: 10px;
         margin-right: 10px;
+    }
+    .b-btn{
+        background-color:#ff9800 ;
+        color: #fff;
+        display: flex;
+        font-family: Montserrat, sans-serif;
+        font-size: 1rem;
+        font-weight: 500;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        box-shadow: -1px 1px 10px 2px black;
+        border: none;
+        transition: box-shadow 1s;
     }
 }
 @media (max-width: 800px) {

@@ -2,7 +2,7 @@
 var gElCanvas;
 var gCtx;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
-var gIsDrag=false;
+var gIsDrag = false;
 var gPrevPos;
 
 function init() {
@@ -11,9 +11,8 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
-    onImgClick("img/sqrImg/16.jpg")
+    // onImgClick("img/sqrImg/16.jpg")
 }
-
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
@@ -28,13 +27,11 @@ function resizeCanvas() {
     gElCanvas.height = elContainer.offsetHeight;
     setCanvasSize(gElCanvas.width);
 }
-
 function addMouseListeners() {
     gElCanvas.addEventListener('mousemove', onMove)
     gElCanvas.addEventListener('mousedown', onDown)
     gElCanvas.addEventListener('mouseup', onUp)
 }
-
 function addTouchListeners() {
     gElCanvas.addEventListener('touchmove', onMove)
     gElCanvas.addEventListener('touchstart', onDown)
@@ -49,26 +46,26 @@ function isSelectedLine(pos) {
     var meme = getMeme();
     var selectedLineIdx = meme.lines.findIndex(line => {
         var txtWidth = gCtx.measureText(line.txt).width;
-        var x=getXVal(line,txtWidth);
+        var x = getXVal(line, txtWidth);
         var alignVertical = -line.size - 8
-        return (( x< pos.x && pos.x <x+txtWidth) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
+        return ((x < pos.x && pos.x < x + txtWidth) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
     })
     if (selectedLineIdx === -1) return;
     setSelectedLine(selectedLineIdx);
-    gPrevPos=pos;
-    gIsDrag=true;
+    gPrevPos = pos;
+    gIsDrag = true;
 }
-function onMove(ev){
-    if(!gIsDrag)return;
-    const pos=getEvPos(ev);
+function onMove(ev) {
+    if (!gIsDrag) return;
+    const pos = getEvPos(ev);
     const dx = pos.x - gPrevPos.x
     const dy = pos.y - gPrevPos.y
     moveLine(dx, dy)
     gPrevPos = pos;
     renderCanvas()
 }
-function onUp(){
-    gIsDrag=false;
+function onUp() {
+    gIsDrag = false;
 }
 function getEvPos(ev) {
     var pos = {
@@ -85,7 +82,6 @@ function getEvPos(ev) {
     }
     return pos
 }
-
 function renderPage() {
     const imgs = getImgs()
     var htmlStr = '';
@@ -95,20 +91,35 @@ function renderPage() {
             <img src="${img.url}" id=${img.id}   onclick="onImgClick('${img.url}')">\n
         </div>\n`
     })
-    console.log(htmlStr);
-    document.querySelector('.main-content').innerHTML = htmlStr;
+    document.querySelector('.main-page').innerHTML = htmlStr;
 }
 function setHomePage() {
     document.querySelector('.meme-generator').style.display = 'none';
     document.querySelector('main').hidden = false;
+    document.querySelector('.my-gallery').hidden = true;
+
+    resetgMeme();
 }
 function onImgClick(url) {
     document.querySelector('.meme-generator').style.display = 'flex';
     document.querySelector('main').hidden = true;
+    document.querySelector('.my-gallery').hidden = true;
     updateMeme(url);
+    setSelectedLine(0);
     resizeCanvas();
     renderCanvas();
 
+}
+function onMyImgClick(idx) {
+    document.querySelector('.meme-generator').style.display = 'flex';
+    document.querySelector('main').hidden = true;
+    document.querySelector('.my-gallery').hidden = true;
+    const myImgs = getMyImgs();
+    setMeme(myImgs[idx].meme);
+    deleteFromDB(idx);
+    resizeCanvas();
+    setSelectedLine(0);
+    renderCanvas();
 }
 function renderCanvas() {
     document.querySelector('.txtLine').value = getCurrLine().txt;
@@ -135,8 +146,11 @@ function onTxt(txt) {
 function drawTxt(line) {
     gCtx.font = `${line.size}px ${line.font}`;
     gCtx.textAlign = line.align;
-    var textVertical = -8
+    var textVertical = -8;
+    gCtx.strokeStyle = line.strokeColor
+    gCtx.fillStyle = line.fillColor
     gCtx.fillText(line.txt, line.pos.x, line.pos.y + textVertical);
+    gCtx.strokeText(line.txt, line.pos.x, line.pos.y + textVertical);
 }
 function drawImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
@@ -144,10 +158,10 @@ function drawImg(img) {
 function drawRect(line) {
     var y = line.pos.y
     var txtWidth = gCtx.measureText(line.txt).width;
-    var x=getXVal(line,txtWidth);
+    var x = getXVal(line, txtWidth);
     var alignVertical = -line.size - 5
     gCtx.beginPath()
-    gCtx.rect(x, y,txtWidth, alignVertical)
+    gCtx.rect(x, y, txtWidth, alignVertical)
     gCtx.strokeStyle = 'black'
     gCtx.stroke()
 
@@ -176,9 +190,99 @@ function onAlign(val) {
     alignText(val);
     renderCanvas();
 }
-function onFontChange(val){
+function onFontChange(val) {
     setFont(val);
     renderCanvas();
+}
+function onFillColor(val) {
+    setFillColor(val);
+    document.querySelector('.fill-container').style.backgroundColor = val + '70';
+    renderCanvas();
+}
+function onStrokeColor(val) {
+    setStrokeColor(val);
+    document.querySelector('.stroke-container').style.backgroundColor = val + '70';
+    renderCanvas();
+}
+function onDownloadImg() {
+    setSelectedLine(-1);
+    renderCanvas();
+    downloadImg();
+}
+function downloadImg() {
+    var elLink = document.querySelector('.download-link');
+    var imgContent = gElCanvas.toDataURL('image/jpeg')
+    elLink.href = imgContent;
+}
+function uploadImg() {
+    const imgDataUrl = gElCanvas.toDataURL("image/jpeg");
+
+    function onSuccess(uploadedImgUrl) {
+        document.body.classList.add('modal');
+        const encodedUploadedImgUrl = encodeURIComponent(uploadedImgUrl)
+        document.querySelector('.share-btns').innerHTML = `
+        <a class="c-btn" href="https://www.facebook.com/sharer/sharer.php?u=${encodedUploadedImgUrl}&t=${encodedUploadedImgUrl}" title="Share on Facebook" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=${uploadedImgUrl}&t=${uploadedImgUrl}'); return false;">
+           <i class="fab fa-facebook">Share</i>  
+        </a>`
+    }
+    doUploadImg(imgDataUrl, onSuccess);
+}
+function onSaveImg() {
+    setSelectedLine(-1);
+    renderCanvas();
+    saveImg();
+}
+function saveImg() {
+    var imgData = gElCanvas.toDataURL("image/jpeg");
+    saveImgToDB(imgData.replace(/^data:image\/(png|jpeg);base64,/, ""));
+    onMyGallery();
+}
+function closeModal() {
+    document.body.classList.remove('modal');
+}
+function doUploadImg(imgDataUrl, onSuccess) {
+
+    const formData = new FormData();
+    formData.append('img', imgDataUrl)
+
+    fetch('//ca-upload.com/here/upload.php', {
+        method: 'POST',
+        body: formData
+    })
+        .then(res => res.text())
+        .then((url) => {
+            console.log('Got back live url:', url);
+            onSuccess(url)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+}
+function onMyGallery() {
+    document.querySelector('.meme-generator').style.display = 'none';
+    document.querySelector('main').hidden = true;
+    var elMyGallery = document.querySelector('.my-gallery');
+    elMyGallery.hidden = false;
+    const myImgs = getMyImgs();
+    var htmlStr = '';
+    if (!myImgs.length) {
+        htmlStr = `<h1>You have no Photos In Your Gallery </br> press<span onclick="setHomePage()"> HERE </span>To edit memes</h1>`
+        elMyGallery.innerHTML = htmlStr;
+        return;
+    }
+    myImgs.forEach((img, idx) => {
+        htmlStr += `
+        <div class="img-container">\n
+            <img src="data:image/jpeg;base64,${img.url}" >\n
+            <button class="delImg myBtn" onclick="onDelete('${idx}')"></button>
+            <button class="edit myBtn" onclick="onMyImgClick('${idx}')"></button>
+        </div>\n`
+    })
+    document.querySelector('.my-gallery-imgs').innerHTML = htmlStr;
+}
+function onDelete(val) {
+    deleteFromDB(val);
+    onMyGallery();
 }
 function setSelected(line) {
     var elSelects = document.querySelectorAll('.selected');
@@ -199,4 +303,8 @@ function setSelected(line) {
 }
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
+}
+function removeClass() {
+    document.body.removeAttribute('class');
+
 }

@@ -1,29 +1,32 @@
 'use strict'
+const KEY = 'MyGalleryDB';
 var gKeywords = {}
-var gImgs = [{ id: 1, url: 'img/1.jpg', keywords: ['donald-trump'] }];
-var gMeme = {
-    selectedImgUrl: '',
-    selectedLineIdx: 0,
-    lines: [
-        {
-            txt: 'Example text',
-            font:'Impact ,sans-serif',
-            size: 48,
-            align: 'center',
-            color: 'black',
-            pos: { x: 250, y: 60 }
-        }
-    ]
-}
+var gImgs;
+var gMeme ;
 var gCanvas = {
     width: 500,
 }
+var gMyImgs=[];
 
+
+function saveImgToDB(val){
+    gMyImgs.push({url:val,meme:gMeme});
+    _saveImgsToStorage();
+
+}
+function deleteFromDB(idx){
+    gMyImgs.splice(idx,1);
+    _saveImgsToStorage();
+}
+function getMyImgs(){
+    _createMyImgs();
+    return gMyImgs;
+}
 function createImgs() {
     var imgs = _createImgs();
+    resetgMeme();
     gImgs=imgs;
 }
-
 function getImgs() {
     return gImgs;
 }
@@ -105,6 +108,7 @@ function getXVal(line, txtWidth) {
     return x;
 }
 function getCurrLine() {
+    if(gMeme.selectedLineIdx===-1)return gMeme.lines[0];
     return gMeme.lines[gMeme.selectedLineIdx];
 }
 function alignText(val) {
@@ -146,8 +150,15 @@ function getLinePos(numOfLine) {
 function setFont(val){
     getCurrLine().font=val;
 }
-
-
+function setFillColor(val){
+    getCurrLine().fillColor=val;
+}
+function setStrokeColor(val){
+    getCurrLine().strokeColor=val;
+}
+function setMeme(meme){
+    gMeme=meme;
+}
 function _createImgs() {
     var imgs = [];
     imgs.push({ id: 1, url: 'img/sqrImg/1.jpg', keywords: ['donald-trump', 'politican'] })
@@ -169,4 +180,30 @@ function _createImgs() {
     imgs.push({ id: 17, url: 'img/sqrImg/17.jpg', keywords: ['putin', 'politican'] })
     imgs.push({ id: 18, url: 'img/sqrImg/18.jpg', keywords: ['everywhere', 'toy story'] })
     return imgs;
+}
+function resetgMeme(){
+    var meme = {
+        selectedImgUrl: '',
+        selectedLineIdx: 0,
+        lines: [
+            {
+                txt: 'Example text',
+                font:'Impact ,sans-serif',
+                size: 48,
+                align: 'center',
+                fillColor: 'black',
+                strokeColor: 'black',
+                pos: { x: 250, y: 60 }
+            }
+        ]
+    }
+    gMeme=meme;
+}
+function _createMyImgs() {
+    var imgs = loadFromStorage(KEY)
+    gMyImgs = imgs;
+    _saveImgsToStorage();
+}
+function _saveImgsToStorage() {
+    saveToStorage(KEY, gMyImgs)
 }

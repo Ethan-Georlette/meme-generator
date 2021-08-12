@@ -10,29 +10,31 @@
 </head>
 
 <body onload="init()">
-    <div class="screen" onclick="toggleMenu()"></div>
+    <div class="screen" onclick="removeClass()"></div>
     <header>
         <div class="main-nav main-layout flex space-between center">
             <div class="logo" onclick="setHomePage()"><img src="img/design/logo.png" /></div>
             <a class="btn-menu-toggle" onclick="toggleMenu()">☰</a>
             <ul class="navLinks clean-list flex center">
+                <li><a href="#" onclick="onMyGallery()">MY Gallery</a></li>
                 <li><a href="#gallery" onclick="setHomePage()">Gallery</a></li>
                 <li><a href="#about" onclick="setHomePage()">About</a></li>
             </ul>
         </div>
     </header>
+    <section class="my-gallery" hidden>
+        <div class="my-gallery-imgs main-content main-layout">
+        </div>
+    </section>
     <main>
-        <section class="search">
+        <!-- <section class="search">
             <input type="text" class="search" placeholder="Enter search key word" oninput="search(this.value)">
             <button class="search-btn"></button>
             <ul class="clean-list flex space-between">
             </ul>
-        </section>
-        <!-- <section class="flex center"> -->
-            <div class="main-content main-layout" id="gallery">
-            </div>
-        <!-- </section> -->
-
+        </section> -->
+        <div class="main-page main-content main-layout" id="gallery">
+        </div>
         <section class="about-me" id="about" style="padding: 0px;">
             <div class="info main-layout flex center justify-center">
                 <img class="rounded-circle" src="img/design/Ethan_profile.jpg" alt="" />
@@ -67,7 +69,7 @@
     </main>
     <div class="meme-generator flex main-layout space-between" style="display: none;">
         <div class="canvas-container flex center justify-center">
-        <canvas id="canvas" width="500" height="500"></canvas>
+            <canvas id="canvas" width="500" height="500"></canvas>
         </div>
         <div class="tools">
             <input type="text" class="txtLine" placeholder="line" oninput="onTxt(this.value)">
@@ -82,14 +84,30 @@
             <button class="btn txtAlignLeft" onclick="onAlign('left')"></button>
             <button class="btn txtAlignCenter" onclick="onAlign('center')"></button>
             <button class="btn txtAlignRight" onclick="onAlign('right')"></button>
-            <select id="fonts" onchange="onFontChange(this.value)">
+            <select class="fonts" onchange="onFontChange(this.value)">
                 <option value="Impact ,sans-serif" style="font-family:Impact ,sans-serif">Impact</option>
                 <option value="'Mosaic',cursive" style="font-family:'Mosaic',cursive;">Mosaic</option>
                 <option value="'Bangers',cursive" style="font-family:'Bangers',cursive;">Bangers</option>
                 <option value="'Roboto',sans-serif" style="font-family:'Roboto',sans-serif;">Roboto</option>
             </select>
-            <input type="color" id="stroke-color">
-            <input type="color" id="fill-color">
+            <div class="btn stroke-container">
+                <input type="color" colorpick-eyedropper-active="false" oninput="onStrokeColor(this.value)">
+            </div>
+            <div class="btn fill-container">
+                <input type="color" colorpick-eyedropper-active="false" oninput="onFillColor(this.value)">
+            </div>
+            <button class="b-btn" onclick="onSaveImg()">Save</button>
+            <a href="#" class="b-btn download-link" onclick="onDownloadImg()" download="meme.jpg">Download</a>
+            <button class="b-btn" onclick="uploadImg()">Share</button>
+        </div>
+    </div>
+    </div>
+    <div class="share-modal column space-between">
+        <h1>Share on Facebook</h1>
+        <div class="btns flex space-between">
+            <div class="share-btns flex space-between">
+            </div>
+            <button class="c-btn" onclick="closeModal()">Close</button>
         </div>
     </div>
     <footer class="flex column center">
