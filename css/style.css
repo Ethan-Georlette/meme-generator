@@ -135,6 +135,46 @@ header{
 .main-content img{
     max-width:100% ;
 }
+.pages{
+    position: relative;
+}
+body.menu-open .pages{
+    z-index: -1;
+}
+.pages ul{
+    gap: 6px;
+}
+.pages li:not(.currPage):hover{
+    cursor: pointer;
+    box-shadow: none;
+}
+.pages li.currPage{
+    box-shadow: 0px 0px 4px 3px rgb(0 47 255);
+}
+.pages li{
+    background-color:#ff7f00 ;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: 'Bangers',cursive;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
+    box-shadow: -1px 1px 10px 1px black;
+    transition: box-shadow 1s;
+    background-repeat: no-repeat;
+    background-size: 70% ;
+    background-position: center;
+}
+.pages .minus{
+    background-image: url("img/ICONS/leftArrow.png");
+}
+.pages .plus{
+    background-image: url("img/ICONS/leftArrow.png");
+    transform: rotatey(180deg);
+}
 /* ABOUT */
 .about-me{
     background-color: #fff;
@@ -219,9 +259,7 @@ footer{
     grid-row: 2;
     background-image: url('img/ICONS/aroow.png');
 }
-canvas{
-    background-color: #fff;
-}
+
 .txtPosUp{
     grid-column: 2;
     grid-row: 2;

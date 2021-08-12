@@ -91,20 +91,35 @@ function getEvPos(ev) {
 }
 function renderPage() {
     const imgs = getImgs()
-    var htmlStr = '';
+    var htmlStr = '<div class="main-content main-layout" id="gallery">';
     imgs.forEach(img => {
         htmlStr += `
         <div class="img-container">\n
             <img src="${img.url}" id=${img.id}   onclick="onImgClick('${img.url}')">\n
         </div>\n`
     })
-    document.querySelector('.main-page').innerHTML = htmlStr;
+    var numOfPages = getPages();
+    htmlStr += `</div>
+    <div class="pages flex center justify-center">
+        <ul class="clean-list flex">
+            <li class="minus" onclick="onPage('minus')"></li>`;
+    for (var i = 0; i < numOfPages; i++) {
+        htmlStr += `<li onclick="onPage('${i + 1}')">${i + 1}</li>`
+    }
+    htmlStr += `<li class="plus" onclick="onPage('plus')"></li></ul></div>`
+    document.querySelector('.main-page').innerHTML=htmlStr;
+    setSelectedPage(getCurrPage());
+}
+function onPage(value) {
+    changePage(value);
+    renderPage();
 }
 function setHomePage() {
     document.querySelector('.meme-generator').style.display = 'none';
     document.querySelector('main').hidden = false;
     document.querySelector('.my-gallery').hidden = true;
-
+    changePage('1');
+    renderPage();
     resetgMeme();
 }
 function onImgClick(url) {
@@ -131,6 +146,9 @@ function onMyImgClick(idx) {
     gIsCanvas = true;
 }
 function renderCanvas(isDownload = false) {
+    gCtx.clearRect(0, 0, canvas.width, canvas.height);
+    gCtx.fillStyle = '#fff'
+    gCtx.fillRect(0, 0, canvas.width, canvas.height)
     document.querySelector('.txtLine').value = getCurrLine().txt;
     var meme = getMeme();
     var img = new Image();
@@ -176,7 +194,7 @@ function drawImg(img) {
         x = x - (x / y * (y - gElCanvas.width))
         y = 500;
     }
-    gCtx.drawImage(img, (gElCanvas.width-x)/2, (gElCanvas.width-y)/2, x, y)
+    gCtx.drawImage(img, (gElCanvas.width - x) / 2, (gElCanvas.width - y) / 2, x, y)
 
 }
 function drawRect(line) {
@@ -326,6 +344,15 @@ function setSelected(line) {
     document.querySelector('.fill-container').style.backgroundColor = line.fillColor + '70';
     document.querySelector('.stroke-container').style.backgroundColor = line.strokeColor + '70';
 
+}
+function setSelectedPage(pageIdx){
+    var elSelects = document.querySelectorAll('.pages li');
+    for (var i = 0; i < elSelects.length; i++) {
+        elSelects[i].classList.remove('currPage');
+        if(elSelects[i].innerText==pageIdx){
+            elSelects[i].classList.add('currPage');
+        }
+    }
 }
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
