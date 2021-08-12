@@ -45,15 +45,17 @@ function renderLines() {
     })
 }
 function addLine() {
-    gMeme.selectedLineIdx = gMeme.lines.length;
-    var pos = getLinePos(gMeme.selectedLineIdx);//util function that position the line in the right place on the canvas
+    var pos = getLinePos(gMeme.lines.length);//util function that position the line in the right place on the canvas
     var line = {
-        txt: '',
-        size: 48,
-        align: 'center',
-        color: 'black',
+        txt: 'Example text',
+        font:getCurrLine().font,
+        size: getCurrLine().size,
+        align: getCurrLine().align,
+        fillColor: getCurrLine().fillColor,
+        strokeColor: getCurrLine().strokeColor,
         pos
     }
+    gMeme.selectedLineIdx = gMeme.lines.length;
     gMeme.lines.push(line);
 }
 function changeFontSize(val) {
@@ -191,8 +193,8 @@ function resetgMeme(){
                 font:'Impact ,sans-serif',
                 size: 48,
                 align: 'center',
-                fillColor: 'black',
-                strokeColor: 'black',
+                fillColor: '#000000',
+                strokeColor: '#000000',
                 pos: { x: 250, y: 60 }
             }
         ]

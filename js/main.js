@@ -3,6 +3,7 @@ var gElCanvas;
 var gCtx;
 const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
 var gIsDrag = false;
+var gIsCanvas = false;
 var gPrevPos;
 
 function init() {
@@ -11,7 +12,6 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
-    // onImgClick("img/sqrImg/16.jpg")
 }
 function addListeners() {
     addMouseListeners()
@@ -39,7 +39,10 @@ function addTouchListeners() {
 }
 function onDown(ev) {
     const pos = getEvPos(ev);
-    isSelectedLine(pos);
+    if (!isSelectedLine(pos)) {
+        gPrevPos = pos;
+        gIsDrag = true;
+    }
     renderCanvas();
 }
 function isSelectedLine(pos) {
@@ -50,14 +53,18 @@ function isSelectedLine(pos) {
         var alignVertical = -line.size - 8
         return ((x < pos.x && pos.x < x + txtWidth) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
     })
-    if (selectedLineIdx === -1) return;
+    if (selectedLineIdx === -1) return selectedLineIdx;
     setSelectedLine(selectedLineIdx);
-    gPrevPos = pos;
-    gIsDrag = true;
 }
 function onMove(ev) {
-    if (!gIsDrag) return;
+    if (!gIsCanvas) return;
     const pos = getEvPos(ev);
+    if (!isSelectedLine(pos)) {
+        gElCanvas.style.cursor = 'pointer'
+    } else {
+        gElCanvas.style.cursor = 'auto'
+    }
+    if (!gIsDrag) return;
     const dx = pos.x - gPrevPos.x
     const dy = pos.y - gPrevPos.y
     moveLine(dx, dy)
@@ -108,6 +115,7 @@ function onImgClick(url) {
     setSelectedLine(0);
     resizeCanvas();
     renderCanvas();
+    gIsCanvas = true;
 
 }
 function onMyImgClick(idx) {
@@ -120,6 +128,7 @@ function onMyImgClick(idx) {
     resizeCanvas();
     setSelectedLine(0);
     renderCanvas();
+    gIsCanvas = true;
 }
 function renderCanvas(isDownload = false) {
     document.querySelector('.txtLine').value = getCurrLine().txt;
@@ -137,9 +146,9 @@ function renderCanvas(isDownload = false) {
                 setSelected(line);
             }
             if (isDownload) {
-                if(isDownload==='download')downloadImg();
-                if(isDownload==='save')saveImg();
-                if(isDownload==='share')uploadImg();
+                if (isDownload === 'download') downloadImg();
+                if (isDownload === 'save') saveImg();
+                if (isDownload === 'share') uploadImg();
             }
         })
     }
@@ -201,12 +210,10 @@ function onFontChange(val) {
 }
 function onFillColor(val) {
     setFillColor(val);
-    document.querySelector('.fill-container').style.backgroundColor = val + '70';
     renderCanvas();
 }
 function onStrokeColor(val) {
     setStrokeColor(val);
-    document.querySelector('.stroke-container').style.backgroundColor = val + '70';
     renderCanvas();
 }
 function onDownloadImg() {
@@ -218,7 +225,7 @@ function downloadImg() {
     elLink.href = data;
     renderCanvas();
 }
-function onShareImg(){
+function onShareImg() {
     renderCanvas('share')
 }
 function uploadImg() {
@@ -306,6 +313,9 @@ function setSelected(line) {
             document.querySelector('.txtAlignRight').classList.add('selected')
             break;
     }
+    document.querySelector('.fill-container').style.backgroundColor = line.fillColor + '70';
+    document.querySelector('.stroke-container').style.backgroundColor = line.strokeColor + '70';
+
 }
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
