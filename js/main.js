@@ -1,7 +1,9 @@
 'use strict'
 var gElCanvas;
 var gCtx;
-const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend'];
+var gIsDrag=false;
+var gPrevPos;
 
 function init() {
     gElCanvas = document.getElementById('canvas');
@@ -9,6 +11,7 @@ function init() {
     addListeners();
     createImgs();
     renderPage();
+    onImgClick("img/sqrImg/16.jpg")
 }
 
 function addListeners() {
@@ -27,20 +30,45 @@ function resizeCanvas() {
 }
 
 function addMouseListeners() {
-    // gElCanvas.addEventListener('mousemove', onMove)
+    gElCanvas.addEventListener('mousemove', onMove)
     gElCanvas.addEventListener('mousedown', onDown)
-    // gElCanvas.addEventListener('mouseup', onUp)
+    gElCanvas.addEventListener('mouseup', onUp)
 }
 
 function addTouchListeners() {
-    // gElCanvas.addEventListener('touchmove', onMove)
+    gElCanvas.addEventListener('touchmove', onMove)
     gElCanvas.addEventListener('touchstart', onDown)
-    // gElCanvas.addEventListener('touchend', onUp)
+    gElCanvas.addEventListener('touchend', onUp)
 }
 function onDown(ev) {
-    const pos = getEvPos(ev)
-    setSelectedLine(pos);
+    const pos = getEvPos(ev);
+    isSelectedLine(pos);
     renderCanvas();
+}
+function isSelectedLine(pos) {
+    var meme = getMeme();
+    var selectedLineIdx = meme.lines.findIndex(line => {
+        var txtWidth = gCtx.measureText(line.txt).width;
+        var x=getXVal(line,txtWidth);
+        var alignVertical = -line.size - 8
+        return (( x< pos.x && pos.x <x+txtWidth) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
+    })
+    if (selectedLineIdx === -1) return;
+    setSelectedLine(selectedLineIdx);
+    gPrevPos=pos;
+    gIsDrag=true;
+}
+function onMove(ev){
+    if(!gIsDrag)return;
+    const pos=getEvPos(ev);
+    const dx = pos.x - gPrevPos.x
+    const dy = pos.y - gPrevPos.y
+    moveLine(dx, dy)
+    gPrevPos = pos;
+    renderCanvas()
+}
+function onUp(){
+    gIsDrag=false;
 }
 function getEvPos(ev) {
     var pos = {
@@ -105,7 +133,7 @@ function onTxt(txt) {
     renderCanvas();
 }
 function drawTxt(line) {
-    gCtx.font = `${line.size}px Impact`;
+    gCtx.font = `${line.size}px ${line.font}`;
     gCtx.textAlign = line.align;
     var textVertical = -8
     gCtx.fillText(line.txt, line.pos.x, line.pos.y + textVertical);
@@ -115,9 +143,11 @@ function drawImg(img) {
 }
 function drawRect(line) {
     var y = line.pos.y
+    var txtWidth = gCtx.measureText(line.txt).width;
+    var x=getXVal(line,txtWidth);
     var alignVertical = -line.size - 5
     gCtx.beginPath()
-    gCtx.rect(10, y, gElCanvas.width-20, alignVertical)
+    gCtx.rect(x, y,txtWidth, alignVertical)
     gCtx.strokeStyle = 'black'
     gCtx.stroke()
 
@@ -144,6 +174,10 @@ function onDelLine() {
 }
 function onAlign(val) {
     alignText(val);
+    renderCanvas();
+}
+function onFontChange(val){
+    setFont(val);
     renderCanvas();
 }
 function setSelected(line) {

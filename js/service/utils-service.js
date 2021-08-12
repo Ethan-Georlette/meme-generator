@@ -31,18 +31,3 @@ function getRandomColor() {
     }
     return color;
   }
-  function getLinePos(numOfLine){
-      var pos;
-      switch(numOfLine){
-          case 0:
-            pos={x:250,y:60};
-            break;
-          case 1:
-            pos={x:250,y:500};
-            break;
-          case 2:
-            pos={x:250,y:250};
-            break;
-      }
-      return pos;
-  }

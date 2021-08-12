@@ -18,6 +18,18 @@ h1{
 }
 /* FONTS */
 @font-face {
+    font-family: Roboto;
+    src: url(../fonts/Roboto-Regular.ttf);
+}
+@font-face {
+    font-family: Mosaic;
+    src: url(../fonts/PaletteMosaic-Regular.ttf);
+}
+@font-face {
+    font-family: Bangers;
+    src: url(../fonts/Bangers-Regular.ttf)
+}
+@font-face {
     font-family: Brands;
     src: url(../fonts/awesome/Font\ Awesome\ 5\ Brands-Regular-400.otf);
 }

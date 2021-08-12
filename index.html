@@ -22,6 +22,12 @@
         </div>
     </header>
     <main>
+        <section class="search">
+            <input type="text" class="search" placeholder="Enter search key word" oninput="search(this.value)">
+            <button class="search-btn"></button>
+            <ul class="clean-list flex space-between">
+            </ul>
+        </section>
         <!-- <section class="flex center"> -->
             <div class="main-content main-layout" id="gallery">
             </div>
@@ -76,6 +82,14 @@
             <button class="btn txtAlignLeft" onclick="onAlign('left')"></button>
             <button class="btn txtAlignCenter" onclick="onAlign('center')"></button>
             <button class="btn txtAlignRight" onclick="onAlign('right')"></button>
+            <select id="fonts" onchange="onFontChange(this.value)">
+                <option value="Impact ,sans-serif" style="font-family:Impact ,sans-serif">Impact</option>
+                <option value="'Mosaic',cursive" style="font-family:'Mosaic',cursive;">Mosaic</option>
+                <option value="'Bangers',cursive" style="font-family:'Bangers',cursive;">Bangers</option>
+                <option value="'Roboto',sans-serif" style="font-family:'Roboto',sans-serif;">Roboto</option>
+            </select>
+            <input type="color" id="stroke-color">
+            <input type="color" id="fill-color">
         </div>
     </div>
     <footer class="flex column center">
