@@ -219,6 +219,9 @@ footer{
     grid-row: 2;
     background-image: url('img/ICONS/aroow.png');
 }
+canvas{
+    background-color: #fff;
+}
 .txtPosUp{
     grid-column: 2;
     grid-row: 2;

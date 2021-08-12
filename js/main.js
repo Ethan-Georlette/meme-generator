@@ -24,7 +24,7 @@ function addListeners() {
 function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth;
-    gElCanvas.height = elContainer.offsetHeight;
+    gElCanvas.height = elContainer.offsetWidth;
     setCanvasSize(gElCanvas.width);
 }
 function addMouseListeners() {
@@ -167,7 +167,17 @@ function drawTxt(line) {
     gCtx.strokeText(line.txt, line.pos.x, line.pos.y + textVertical);
 }
 function drawImg(img) {
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    var x = img.width;
+    var y = img.height;
+    if (x > y) {
+        y = y - (y / x * (x - gElCanvas.width))
+        x = 500;
+    } else {
+        x = x - (x / y * (y - gElCanvas.width))
+        y = 500;
+    }
+    gCtx.drawImage(img, (gElCanvas.width-x)/2, (gElCanvas.width-y)/2, x, y)
+
 }
 function drawRect(line) {
     var y = line.pos.y
