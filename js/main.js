@@ -39,13 +39,14 @@ function addTouchListeners() {
 }
 function onDown(ev) {
     const pos = getEvPos(ev);
-    if (!isSelectedLine(pos)) {
+    if (getSelectedLineIdx(pos) !== -1) {
         gPrevPos = pos;
         gIsDrag = true;
+        setSelectedLine(getSelectedLineIdx(pos));
+        renderCanvas();
     }
-    renderCanvas();
 }
-function isSelectedLine(pos) {
+function getSelectedLineIdx(pos) {
     var meme = getMeme();
     var selectedLineIdx = meme.lines.findIndex(line => {
         var txtWidth = gCtx.measureText(line.txt).width;
@@ -54,12 +55,12 @@ function isSelectedLine(pos) {
         return ((x < pos.x && pos.x < x + txtWidth) && (pos.y < line.pos.y && pos.y > line.pos.y + alignVertical))
     })
     if (selectedLineIdx === -1) return selectedLineIdx;
-    setSelectedLine(selectedLineIdx);
+    return selectedLineIdx;
 }
 function onMove(ev) {
     if (!gIsCanvas) return;
     const pos = getEvPos(ev);
-    if (!isSelectedLine(pos)) {
+    if (getSelectedLineIdx(pos) !== -1) {
         gElCanvas.style.cursor = 'pointer'
     } else {
         gElCanvas.style.cursor = 'auto'
@@ -107,7 +108,7 @@ function renderPage() {
         htmlStr += `<li onclick="onPage('${i + 1}')">${i + 1}</li>`
     }
     htmlStr += `<li class="plus" onclick="onPage('plus')"></li></ul></div>`
-    document.querySelector('.main-page').innerHTML=htmlStr;
+    document.querySelector('.main-page').innerHTML = htmlStr;
     setSelectedPage(getCurrPage());
 }
 function onPage(value) {
@@ -163,14 +164,15 @@ function renderCanvas(isDownload = false) {
                 drawRect(line);
                 setSelected(line);
             }
-            if (isDownload) {
-                if (isDownload === 'download') downloadImg();
-                if (isDownload === 'save') saveImg();
-                if (isDownload === 'share') uploadImg();
-            }
         })
+        if (isDownload) {
+            if (isDownload === 'download') downloadImg();
+            if (isDownload === 'save') saveImg();
+            if (isDownload === 'share') uploadImg();
+        }
     }
 }
+
 function onTxt(txt) {
     updateTxt(txt);
     renderCanvas();
@@ -272,10 +274,12 @@ function uploadImg() {
 }
 function onSaveImg() {
     renderCanvas('save');
+    console.log('b');
 }
 function saveImg() {
     var imgData = gElCanvas.toDataURL("image/jpeg");
-    saveImgToDB(imgData.replace(/^data:image\/(png|jpeg);base64,/, ""));
+    imgData = imgData.replace(/^data:image\/(png|jpeg);base64,/, "");
+    saveImgToDB(imgData)
     onMyGallery();
 }
 function closeModal() {
@@ -345,11 +349,11 @@ function setSelected(line) {
     document.querySelector('.stroke-container').style.backgroundColor = line.strokeColor + '70';
 
 }
-function setSelectedPage(pageIdx){
+function setSelectedPage(pageIdx) {
     var elSelects = document.querySelectorAll('.pages li');
     for (var i = 0; i < elSelects.length; i++) {
         elSelects[i].classList.remove('currPage');
-        if(elSelects[i].innerText==pageIdx){
+        if (elSelects[i].innerText == pageIdx) {
             elSelects[i].classList.add('currPage');
         }
     }

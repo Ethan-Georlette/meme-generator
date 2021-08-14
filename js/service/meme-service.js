@@ -13,7 +13,7 @@ var gMyImgs = [];
 
 
 function saveImgToDB(val) {
-    gMyImgs.push({ url: val, meme: gMeme });
+    gMyImgs.push({ url: val, meme:gMeme});
     _saveImgsToStorage();
 
 }
@@ -60,11 +60,6 @@ function updateTxt(txt) {
 }
 function getMeme() {
     return gMeme;
-}
-function renderLines() {
-    gMeme.lines.forEach((line, idx) => {
-        line.pos = getLinePos(idx);
-    })
 }
 function addLine() {
     var pos = getLinePos(gMeme.lines.length);//util function that position the line in the right place on the canvas
@@ -162,7 +157,6 @@ function alignText(val) {
 function setCanvasSize(width) {
     gCanvas.width = width;
     gCanvas.height = width;
-    renderLines();
 }
 function getLinePos(numOfLine) {
     var pos;
