@@ -138,6 +138,25 @@ header{
 .pages{
     position: relative;
 }
+.img-container{
+    transition: opacity 0.4s;
+}
+.img-container:hover{
+    opacity: 0.5;
+}
+.input-file{
+    background-image: url('img/ICONS/add.png');
+    background-repeat: no-repeat;
+    background-size: 50%;
+    background-position: center;
+    border: 0.5px solid rgb(160, 160, 160);
+}
+.file-input{
+    width: 100%;
+    height: 100%;
+    opacity: 0; 
+
+}
 body.menu-open .pages{
     z-index: -1;
 }
